@@ -1,0 +1,112 @@
+{% extends 'pharmacy/base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+    }
+    .login-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 20px;
+    }
+    .login-container {
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+    }
+    .login-container h2 {
+        color: #333;
+        margin-bottom: 25px;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .login-container input[type="text"], 
+    .login-container input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+        transition: border-color 0.3s;
+    }
+    .login-container input:focus {
+        border-color: #667eea;
+        outline: none;
+    }
+    .login-container label {
+        display: block;
+        text-align: left;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 8px;
+    }
+    .login-container button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 14px;
+        width: 100%;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        margin-top: 10px;
+    }
+    .login-container button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+    }
+    .register-link {
+        margin-top: 25px;
+        font-size: 14px;
+        color: #666;
+    }
+    .register-link a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .register-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="login-wrapper">
+<div class="login-container">
+    <h2>Login</h2>
+    {% if error %}
+        <p style="color: red; font-weight: bold;">{{ error }}</p>
+    {% endif %}
+    {% if form.non_field_errors %}
+        <div style="color: red; margin-bottom: 15px;">{{ form.non_field_errors.0 }}</div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+            {{ field }}
+            {% if field.errors %}
+                <div style="color: red; font-size: 12px; text-align: left; margin-bottom: 10px; margin-top: -10px;">{{ field.errors.0 }}</div>
+            {% endif %}
+        {% endfor %}
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="register-link">
+        Don’t have an account? <a href="{% url 'register' %}">Register here</a>
+    </div>
+</div>
+</div>
+{% endblock %}
